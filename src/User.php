@@ -31,11 +31,22 @@ class User {
 
     public static function find($id) : ?User
     {
-        $stmt = User::connect()->prepare('SELECT id, email, name FROM users WHERE id = :id');
+        $stmt = User::connect()->prepare('SELECT id, email, password name FROM users WHERE id = :id');
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
         return new User($attrs);
+    }
+
+    public static function findByEmail($email) : ?User
+    {
+        $pdo = User::connect();
+        $stmt = $pdo->prepare('SELECT id, email, name, password FROM users WHERE email = :email');
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new User($attrs);
+        
     }
 
     public static function connect(): PDO

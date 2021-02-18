@@ -1,18 +1,11 @@
 <?php
 require_once('User.php');
+require_once('error_util.php');
 session_start();
 
 header('charset=UTF-8');
 
-function showError(&$errors, $key) {
-?>
-<div class="error">
-    <?php if(isset($errors[$key])) : ?>
-        <?= $errors[$key] ?>
-    <? endif; ?>
-</div>
-<?php
-}
+
 
 
 $errors = [];
@@ -42,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if(isset($_POST['password'])) {
-        
+        $password = $_POST['password'];
     } else {
         $errors['password'] = 'passwordを入力して下さい。';
     }

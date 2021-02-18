@@ -1,9 +1,40 @@
 <?php
-session_Start();
+require_once('User.php');
+require_once('error_util.php');
+
+
+session_start();
 header("charset=utf-8");
 
+$errors = [];
+$email = '';
+$password = '';
+
 if($_SERVER['REQUEST_METHOD'] == "POST") {
-    $_SESSION['user_id'] = "";
+
+    session_regenerate_id(false);
+
+    if(isset($_POST['email'])) {
+        $email = trim(htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'));
+    } else {
+        $errors['email'] = 'メールアドレスを入力して下さい。';
+    }
+
+    if(isset($_POST['password'])) {
+        $password = trim(htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8'));
+    } else {
+        $errors['password'] = 'パスワードを入力して下さい。';
+    }
+
+    if(count($errors) == 0) {
+        $user = User::findByEmail($email);
+        if(password_verify($password, $user->password)) {
+            $_SESSION['user_id'] = $user->id;
+        } else {
+            $errors['email'] = 'email又はpasswordが一致しません。';
+            $errors['password'] = $errors['email'];
+        }
+    }
 }
 
 if(isset($_SESSION["user_id"])) {
@@ -19,9 +50,15 @@ if(isset($_SESSION["user_id"])) {
 </title>
 <body>
 <form action="/login.php" method="POST">
-    <div>email:<input type="text" hint="メールアドレス"></div>
-        <div>password: <input type="password"></div>
-        <input type="submit">
-    </form>
+    <div>
+        email:<input type="text" hint="メールアドレス" name="email">
+        <?php showError($errors, 'email'); ?>
+    </div>
+    <div>
+        password: <input type="password" name="password">
+        <?php showError($errors, 'password'); ?>
+    </div>
+    <input type="submit">
+</form>
 </body>
 </html>
