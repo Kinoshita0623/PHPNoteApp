@@ -1,14 +1,8 @@
 <?php
+require_once('Model.php');
 
-class Note {
+class Note extends Model{
 
-    public $attributes;
 
-    public function __construct(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    
 }
 ?>

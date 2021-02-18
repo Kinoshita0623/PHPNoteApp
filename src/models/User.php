@@ -1,19 +1,10 @@
 <?php
+require_once('Model.php');
 
 
-class User {
+class User extends Model{
 
-    public $attributes;
-
-    public function __construct(array $attributes) 
-    {
-        $this->attributes = $attributes;
-    }
-
-    public function __get($key)
-    {
-        return $this->attributes[$key];
-    }
+   
 
     public static function create(array $attributes) : ?User
     {
@@ -49,10 +40,4 @@ class User {
         
     }
 
-    public static function connect(): PDO
-    {
-        $pdo = new PDO('mysql:dbname=app-database;host=db;charset=utf8mb4', 'test', 'secret');
-
-        return $pdo;
-    }
 }
