@@ -1,19 +1,11 @@
 <?php
+require_once('Model.php');
+require_once('Note.php');
 
 
-class User {
+class User extends Model{
 
-    public $attributes;
-
-    public function __construct(array $attributes) 
-    {
-        $this->attributes = $attributes;
-    }
-
-    public function __get($key)
-    {
-        return $this->attributes[$key];
-    }
+   
 
     public static function create(array $attributes) : ?User
     {
@@ -35,7 +27,10 @@ class User {
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new User($attrs);
+        if(is_array($attrs)) {
+            return new User($attrs);
+        }
+        return null;
     }
 
     public static function findByEmail($email) : ?User
@@ -45,14 +40,22 @@ class User {
         $stmt->bindValue(':email', $email);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new User($attrs);
+        if(is_array($attrs)){
+            return new User($attrs);
+        }
+
+        return null;
         
     }
 
-    public static function connect(): PDO
+    public function notes() : array
     {
-        $pdo = new PDO('mysql:dbname=app-database;host=db;charset=utf8mb4', 'test', 'secret');
-
-        return $pdo;
+        return Note::findByUserId($this->id);
     }
+
+    public function createNote($attrs) : ?Note
+    {
+        return Note::create($this, $attrs);
+    }
+
 }

@@ -10,6 +10,7 @@ if(is_null($_SESSION["user_id"])) {
 }
 
 $user = User::find($_SESSION['user_id']);
+$notes = $user->notes();
 ?>
 
 <html>
@@ -22,6 +23,19 @@ $user = User::find($_SESSION['user_id']);
             <form action="/logout.php" method="POST">
                 <input type="submit" value="ログアウト">
             </form>
+            <div>
+                <?php foreach($notes as $note) : ?>
+                    <div>
+                        <div>
+                            <h3><?= h($note->title) ?></h3>
+                        </div>
+                        <div>
+                            <?= h($note->text) ?>
+                        </div>
+                    </div>
+                <? endforeach; ?>
+                <a href="/create.php">新規作成</a>
+            </div>
         <?php else : ?>
             ログインされていません。
         <?php endif ; ?>
