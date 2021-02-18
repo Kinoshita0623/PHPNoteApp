@@ -1,5 +1,5 @@
 <?php
-require_once('User.php');
+require_once(dirname(__FILE__) . '/models/User.php');
 require_once('escape.php');
 
 session_Start();
