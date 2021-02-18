@@ -27,7 +27,10 @@ class User extends Model{
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new User($attrs);
+        if(is_array($attrs)) {
+            return new User($attrs);
+        }
+        return null;
     }
 
     public static function findByEmail($email) : ?User
@@ -37,7 +40,11 @@ class User extends Model{
         $stmt->bindValue(':email', $email);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new User($attrs);
+        if(is_array($attrs)){
+            return new User($attrs);
+        }
+
+        return null;
         
     }
 
@@ -46,7 +53,7 @@ class User extends Model{
         return Note::findByUserId($this->id);
     }
 
-    public function createNote($attrs) : Note
+    public function createNote($attrs) : ?Note
     {
         return Note::create($this, $attrs);
     }

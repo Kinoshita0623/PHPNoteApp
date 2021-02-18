@@ -15,6 +15,8 @@ class Note extends Model{
         if($stmt->execute()){
             return Note::find($pdo->lastInsertId('id'));
         }
+
+        return null;
     }
 
     public static function find($id): ?Note
@@ -24,7 +26,7 @@ class Note extends Model{
         $stmt->bindValue(':id', $id);
         
         $stmt->execute();
-        return Note($stmt->fetch(PDO::FETCH_ASSOC));
+        return new Note($stmt->fetch(PDO::FETCH_ASSOC));
         
     }
 
