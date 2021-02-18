@@ -1,6 +1,8 @@
 <?php
 require_once('User.php');
 require_once('error_util.php');
+require_once('escape.php');
+
 
 
 session_start();
@@ -15,13 +17,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     session_regenerate_id(false);
 
     if(isset($_POST['email'])) {
-        $email = trim(htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'));
+        $email = trim($_POST['email']);
     } else {
         $errors['email'] = 'メールアドレスを入力して下さい。';
     }
 
     if(isset($_POST['password'])) {
-        $password = trim(htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8'));
+        $password = trim($_POST['password']);
     } else {
         $errors['password'] = 'パスワードを入力して下さい。';
     }

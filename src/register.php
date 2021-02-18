@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = '';
     if(
         isset($_POST['email']) 
-        && ($email = trim(htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8')))
+        && ($email = trim($_POST['email']))
         && ! empty($email)
     ) {
 
@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = '';
     if(
         isset($_POST['name'])
-        && ($name = trim(htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8')))
+        && ($name = trim($_POST['name']))
         && !empty($name)
     ) {
 

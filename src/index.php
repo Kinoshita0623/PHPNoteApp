@@ -1,5 +1,6 @@
 <?php
 require_once('User.php');
+require_once('escape.php');
 
 session_Start();
 header("charset=utf-8");
@@ -17,7 +18,7 @@ $user = User::find($_SESSION['user_id']);
 </head>
     <body>
         <?php if(isset($_SESSION['user_id'])) : ?>
-            <?= $user->name?>さんこんにちは
+            <?= h($user->name) ?>さんこんにちは
             <form action="/logout.php" method="POST">
                 <input type="submit" value="ログアウト">
             </form>
