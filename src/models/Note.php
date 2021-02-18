@@ -33,14 +33,18 @@ class Note extends Model{
     public static function findByUserId($userId): array
     {
         $pdo = Note::connect();
-        $stmt = $pdo->prepare('SELECT * FROM notes WHERE user_id = :userId', [ PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL ]);
+        $stmt = $pdo->prepare('SELECT * FROM notes WHERE user_id = :userId');
         $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
 
         $notes = [];
-        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $ntoes[] = new Note($row);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(is_array($results)) {
+            foreach($results as $row){
+                array_push($notes, new Note($row));
+            }
         }
-
+        
         return $notes;
     }
 }
