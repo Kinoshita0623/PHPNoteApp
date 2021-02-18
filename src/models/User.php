@@ -1,5 +1,6 @@
 <?php
 require_once('Model.php');
+require_once('Note.php');
 
 
 class User extends Model{
@@ -38,6 +39,16 @@ class User extends Model{
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);
         return new User($attrs);
         
+    }
+
+    public function notes() : array
+    {
+        return Note::findByUserId($this->id);
+    }
+
+    public function createNote($attrs) : Note
+    {
+        return Note::create($this, $attrs);
     }
 
 }
