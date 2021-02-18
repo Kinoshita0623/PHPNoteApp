@@ -8,5 +8,7 @@ class Note {
     {
         $this->attributes = $attributes;
     }
+
+    
 }
 ?>
