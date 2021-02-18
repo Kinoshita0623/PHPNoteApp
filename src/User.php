@@ -31,7 +31,7 @@ class User {
 
     public static function find($id) : ?User
     {
-        $stmt = User::connect()->prepare('SELECT id, email, password name FROM users WHERE id = :id');
+        $stmt = User::connect()->prepare('SELECT id, email, password, name FROM users WHERE id = :id');
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $attrs = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -1,4 +1,6 @@
 <?php
+require_once('User.php');
+
 session_Start();
 header("charset=utf-8");
 if(is_null($_SESSION["user_id"])) {
@@ -6,6 +8,7 @@ if(is_null($_SESSION["user_id"])) {
     exit;
 }
 
+$user = User::find($_SESSION['user_id']);
 ?>
 
 <html>
@@ -14,7 +17,7 @@ if(is_null($_SESSION["user_id"])) {
 </head>
     <body>
         <?php if(isset($_SESSION['user_id'])) : ?>
-            ログイン済みです
+            <?= $user->name?>さんこんにちは
             <form action="/logout.php" method="POST">
                 <input type="submit" value="ログアウト">
             </form>
