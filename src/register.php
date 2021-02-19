@@ -17,7 +17,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         && ($email = trim($_POST['email']))
         && ! empty($email)
     ) {
-
+        if(! mb_ereg_match('^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$', $email)) {
+            $errors['email'] = 'メールアドレスを入力してください。';
+        }
     } else {
         $errors['email'] = 'emailを入力して下さい。';
     }
@@ -28,7 +30,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         && ($name = trim($_POST['name']))
         && !empty($name)
     ) {
-
+        if(mb_strlen($name) >= 255) {
+            $errors['name'] = '255未満にしてください。';
+        }
     } else {
         $errors['name'] = 'nameを入力して下さい。';
     }
