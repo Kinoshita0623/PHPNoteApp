@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . '/models/User.php');
 require_once('escape.php');
 
-session_Start();
+session_start();
 header("charset=utf-8");
 if(is_null($_SESSION["user_id"])) {
     header("Location: /login.php");

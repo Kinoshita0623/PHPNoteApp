@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__) . '/models/User.php');
 require_once('error_util.php');
 require_once('escape.php');
+require_once('csrf_token_util.php');
 
 
 
@@ -13,6 +14,7 @@ $email = '';
 $password = '';
 
 if($_SERVER['REQUEST_METHOD'] == "POST") {
+    checkCsrfToken();
 
     session_regenerate_id(false);
 
@@ -60,6 +62,7 @@ if(isset($_SESSION["user_id"])) {
         password: <input type="password" name="password">
         <?php showError($errors, 'password'); ?>
     </div>
+    <?php csrfToken ?>
     <input type="submit">
 </form>
 </body>

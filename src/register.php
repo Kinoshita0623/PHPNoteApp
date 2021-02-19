@@ -4,6 +4,8 @@ require_once('error_util.php');
 session_start();
 
 header('charset=UTF-8');
+require_once('csrf_token_util.php');
+
 
 
 
@@ -11,6 +13,7 @@ header('charset=UTF-8');
 $errors = [];
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+    checkCsrfToken();
     $email = '';
     if(
         isset($_POST['email']) 
@@ -82,6 +85,7 @@ if(isset($_SESSION['user_id'])) {
             password:<input type="text" name="password">
         <?php showError($errors, 'password')?>
         </div>
+        <?php csrfToken(); ?>
         <input type="submit" value="登録">
     </form>
 </body>

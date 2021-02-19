@@ -3,6 +3,8 @@ require_once(dirname(__FILE__) . '/models/User.php');
 require_once(dirname(__FILE__) . '/models/Note.php');
 require_once('escape.php');
 require_once('error_util.php');
+require_once('csrf_token_util.php');
+
 
 session_start();
 
@@ -15,6 +17,8 @@ if(is_null($_SESSION['user_id']) || is_null($user = User::find($_SESSION['user_i
 
 $errors = [];
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    checkCsrfToken();
+
     if (isset($_POST['title'])) {
         $title = trim($_POST['title']);
     }else{
@@ -60,6 +64,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             text: <input type="text" name="text">
             <?php showError($errors, 'text') ?>
         </div>
+        <?php csrfToken(); ?>
         <input type="submit">
     </form>
 </body>
